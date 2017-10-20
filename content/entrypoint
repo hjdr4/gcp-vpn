@@ -1,0 +1,28 @@
+#!/bin/bash
+
+_term() { 
+  ip link set vti down &> /dev/null
+  ip tunnel del vti &> /dev/null
+}
+
+trap _term SIGTERM SIGUSR1 SIGINT
+
+_term
+
+ansible-playbook -i 127.0.0.1, -c local /ansible/edge.yml --extra-vars="@/ansible/vars.yml" || { echo "Error playing playbook";exit 1; }
+
+/usr/sbin/ipsec start --nofork &
+mkdir /run/quagga && chown -R quagga /run/quagga 
+/usr/sbin/zebra -A 127.0.0.1 -f /etc/quagga/zebra.conf &
+/usr/sbin/bgpd  -A 127.0.0.1 -f /etc/quagga/bgpd.conf &
+
+echo "Waiting"
+ip route  flush table 220
+wait $!
+echo "Wait done"
+
+ 
+
+
+
+

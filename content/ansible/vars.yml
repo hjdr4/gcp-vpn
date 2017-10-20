@@ -1,0 +1,8 @@
+local_endpoint: 10.245.1.71
+remote_endpoint: 1.2.3.4
+local_bgp_address: 169.254.0.2/30
+remote_bgp_endpoint: 169.254.0.1
+remote_network: 10.154.0.0/20
+psk: "mypsk"
+local_as: "65002"
+remote_as: "65001"

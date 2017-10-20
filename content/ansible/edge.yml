@@ -1,0 +1,32 @@
+- hosts: 127.0.0.1
+  tasks:
+    - template:
+        src: /ansible/configs/ipsec.conf
+        dest: /etc/ipsec.conf
+        mode: "0600"
+
+    - template:
+        src: /ansible/configs/ipsec.secrets
+        dest: /etc/ipsec.secrets
+        mode: "0600"
+
+    - template:
+        src: /ansible/configs/zebra.conf
+        dest: /etc/quagga/zebra.conf
+        
+
+    - template:
+        src: /ansible/configs/bgpd.conf
+        dest: /etc/quagga/bgpd.conf
+
+    - template:
+        src: /ansible/configs/strongswan.conf
+        dest: /etc/strongswan.conf
+        
+    - shell:
+        cmd: >
+          ip tunnel add vti mode vti local {{ local_endpoint }} remote {{ remote_endpoint }} mode vti key 42 && 
+          ip link set vti up && 
+          ip addr add {{ local_bgp_address }} dev vti
+
+   
