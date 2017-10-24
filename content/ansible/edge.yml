@@ -20,6 +20,10 @@
         dest: /etc/quagga/bgpd.conf
 
     - template:
+        src: /ansible/configs/ospfd.conf
+        dest: /etc/quagga/ospfd.conf
+
+    - template:
         src: /ansible/configs/strongswan.conf
         dest: /etc/strongswan.conf
         

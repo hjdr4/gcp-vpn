@@ -15,13 +15,13 @@ ansible-playbook -i 127.0.0.1, -c local /ansible/edge.yml --extra-vars="@/ansibl
 mkdir /run/quagga && chown -R quagga /run/quagga 
 /usr/sbin/zebra -A 127.0.0.1 -f /etc/quagga/zebra.conf &
 /usr/sbin/bgpd  -A 127.0.0.1 -f /etc/quagga/bgpd.conf &
+/usr/sbin/ospfd  -A 127.0.0.1 -f /etc/quagga/ospfd.conf &
 
 echo "Waiting"
 ip route  flush table 220
 wait $!
 echo "Wait done"
 
- 
 
 
 
